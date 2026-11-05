@@ -1,0 +1,23 @@
+[project]
+name = "querypilot"
+version = "0.1.0"
+description = "Multi-agent text-to-SQL analytics copilot with AST guardrails, self-repair, and an MCP server"
+authors = [{ name = "Malaika Nukala" }]
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["querypilot"]
+omit = ["querypilot/ui.py"]
+
+[tool.ruff]
+line-length = 140
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]
