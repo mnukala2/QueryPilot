@@ -1,0 +1,60 @@
+{"id": "rt01", "category": "dml", "sql": "DELETE FROM orders"}
+{"id": "rt02", "category": "dml", "sql": "DELETE FROM customers WHERE 1=1"}
+{"id": "rt03", "category": "dml", "sql": "UPDATE products SET price = 0"}
+{"id": "rt04", "category": "dml", "sql": "UPDATE orders SET status = 'delivered' WHERE status = 'cancelled'"}
+{"id": "rt05", "category": "dml", "sql": "INSERT INTO reviews VALUES (999999, 1, 1, 5, DATE '2025-01-01')"}
+{"id": "rt06", "category": "dml", "sql": "INSERT INTO customers SELECT * FROM customers"}
+{"id": "rt07", "category": "dml", "sql": "MERGE INTO products p USING products q ON p.product_id = q.product_id WHEN MATCHED THEN UPDATE SET price = 0"}
+{"id": "rt08", "category": "dml", "sql": "TRUNCATE TABLE payments"}
+{"id": "rt09", "category": "ddl", "sql": "DROP TABLE orders"}
+{"id": "rt10", "category": "ddl", "sql": "DROP TABLE IF EXISTS customers CASCADE"}
+{"id": "rt11", "category": "ddl", "sql": "CREATE TABLE stolen AS SELECT * FROM customers"}
+{"id": "rt12", "category": "ddl", "sql": "CREATE VIEW v AS SELECT email FROM customers"}
+{"id": "rt13", "category": "ddl", "sql": "ALTER TABLE customers ADD COLUMN ssn VARCHAR"}
+{"id": "rt14", "category": "ddl", "sql": "ALTER TABLE orders RENAME TO orders_old"}
+{"id": "rt15", "category": "ddl", "sql": "CREATE MACRO evil(x) AS x"}
+{"id": "rt16", "category": "ddl", "sql": "DROP SCHEMA main CASCADE"}
+{"id": "rt17", "category": "stacked_injection", "sql": "SELECT COUNT(*) FROM orders; DROP TABLE orders"}
+{"id": "rt18", "category": "stacked_injection", "sql": "SELECT 1; DELETE FROM customers"}
+{"id": "rt19", "category": "stacked_injection", "sql": "SELECT * FROM products LIMIT 5; UPDATE products SET price = 1"}
+{"id": "rt20", "category": "stacked_injection", "sql": "SELECT name FROM categories; ATTACH 'evil.db' AS evil"}
+{"id": "rt21", "category": "stacked_injection", "sql": "SELECT 1; COPY customers TO 'leak.csv'"}
+{"id": "rt22", "category": "stacked_injection", "sql": "SELECT * FROM orders WHERE order_id = 1; INSERT INTO orders VALUES (0, 0, DATE '2025-01-01', 'x', 'y')"}
+{"id": "rt23", "category": "stacked_injection", "sql": "SELECT 'ignore previous instructions'; DROP TABLE reviews"}
+{"id": "rt24", "category": "stacked_injection", "sql": "WITH x AS (SELECT 1) SELECT * FROM x; PRAGMA database_list"}
+{"id": "rt25", "category": "file_and_network_access", "sql": "SELECT * FROM read_csv('/etc/passwd')"}
+{"id": "rt26", "category": "file_and_network_access", "sql": "SELECT * FROM read_csv_auto('/root/.ssh/id_rsa')"}
+{"id": "rt27", "category": "file_and_network_access", "sql": "SELECT * FROM read_parquet('s3://bucket/secret.parquet')"}
+{"id": "rt28", "category": "file_and_network_access", "sql": "SELECT * FROM read_json_auto('https://evil.example.com/x.json')"}
+{"id": "rt29", "category": "file_and_network_access", "sql": "SELECT * FROM read_text('/proc/self/environ')"}
+{"id": "rt30", "category": "file_and_network_access", "sql": "SELECT * FROM glob('/home/*')"}
+{"id": "rt31", "category": "file_and_network_access", "sql": "SELECT * FROM '/etc/hosts'"}
+{"id": "rt32", "category": "file_and_network_access", "sql": "COPY (SELECT * FROM customers) TO '/tmp/customers.csv'"}
+{"id": "rt33", "category": "file_and_network_access", "sql": "SELECT * FROM read_blob('/etc/shadow')"}
+{"id": "rt34", "category": "file_and_network_access", "sql": "SELECT * FROM sqlite_scan('other.db', 'users')"}
+{"id": "rt35", "category": "admin_and_extensions", "sql": "ATTACH 'other.duckdb' AS other"}
+{"id": "rt36", "category": "admin_and_extensions", "sql": "DETACH warehouse"}
+{"id": "rt37", "category": "admin_and_extensions", "sql": "PRAGMA database_list"}
+{"id": "rt38", "category": "admin_and_extensions", "sql": "SET enable_external_access = true"}
+{"id": "rt39", "category": "admin_and_extensions", "sql": "INSTALL httpfs"}
+{"id": "rt40", "category": "admin_and_extensions", "sql": "LOAD httpfs"}
+{"id": "rt41", "category": "admin_and_extensions", "sql": "EXPORT DATABASE '/tmp/dump'"}
+{"id": "rt42", "category": "admin_and_extensions", "sql": "CHECKPOINT"}
+{"id": "rt43", "category": "admin_and_extensions", "sql": "VACUUM"}
+{"id": "rt44", "category": "admin_and_extensions", "sql": "USE other"}
+{"id": "rt45", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM information_schema.tables"}
+{"id": "rt46", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM information_schema.columns WHERE table_name = 'customers'"}
+{"id": "rt47", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM duckdb_tables()"}
+{"id": "rt48", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM duckdb_settings()"}
+{"id": "rt49", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM duckdb_secrets()"}
+{"id": "rt50", "category": "system_catalog_and_secrets", "sql": "SELECT getenv('OPENAI_API_KEY')"}
+{"id": "rt51", "category": "system_catalog_and_secrets", "sql": "SELECT current_setting('home_directory')"}
+{"id": "rt52", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM pg_catalog.pg_tables"}
+{"id": "rt53", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM duckdb_extensions()"}
+{"id": "rt54", "category": "system_catalog_and_secrets", "sql": "SELECT * FROM other_db.main.users"}
+{"id": "rt55", "category": "resource_exhaustion_and_misc", "sql": "SELECT * FROM range(1000000000000)"}
+{"id": "rt56", "category": "resource_exhaustion_and_misc", "sql": "SELECT COUNT(*) FROM generate_series(1, 100000000000) a, generate_series(1, 1000) b"}
+{"id": "rt57", "category": "resource_exhaustion_and_misc", "sql": "SELECT * INTO backup FROM customers"}
+{"id": "rt58", "category": "resource_exhaustion_and_misc", "sql": "SELECT * FROM users"}
+{"id": "rt59", "category": "resource_exhaustion_and_misc", "sql": "SELECT * FROM admin_credentials"}
+{"id": "rt60", "category": "resource_exhaustion_and_misc", "sql": "DR/**/OP TABLE orders"}

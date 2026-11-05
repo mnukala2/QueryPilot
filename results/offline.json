@@ -1,0 +1,70 @@
+{
+  "guardrails": {
+    "attacks": 60,
+    "blocked": 60,
+    "block_rate_pct": 100.0,
+    "leaks": [],
+    "gold_queries": 100,
+    "false_positives": 0,
+    "false_positive_rate_pct": 0.0
+  },
+  "retrieval": {
+    "questions": 100,
+    "top_k": 3,
+    "mean_table_recall_pct": 99.1,
+    "questions_with_all_tables_pct": 97.0,
+    "misses": [
+      {
+        "id": "q091",
+        "question": "Rank categories by 2025 revenue and show each category's rank.",
+        "gold": [
+          "categories",
+          "order_items",
+          "orders",
+          "products"
+        ],
+        "retrieved": [
+          "categories",
+          "order_items",
+          "products"
+        ]
+      },
+      {
+        "id": "q094",
+        "question": "How many customers have written a review for a product they never ordered?",
+        "gold": [
+          "order_items",
+          "orders",
+          "reviews"
+        ],
+        "retrieved": [
+          "customers",
+          "orders",
+          "products",
+          "reviews"
+        ]
+      },
+      {
+        "id": "q100",
+        "question": "Which 5 customers bought the most distinct products? Show names and counts.",
+        "gold": [
+          "customers",
+          "order_items",
+          "orders"
+        ],
+        "retrieved": [
+          "customers",
+          "order_items",
+          "products",
+          "reviews"
+        ]
+      }
+    ]
+  },
+  "prompt_tokens": {
+    "method": "approx (chars/4)",
+    "full_schema_prompt": 838,
+    "retrieved_schema_prompt_mean": 411.2,
+    "reduction_pct": 50.9
+  }
+}
